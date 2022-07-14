@@ -2,8 +2,7 @@ import React from 'react';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { getEstados } from '../services/data';
 
-export default function ListaEstados() {
-  const [estado, setEstado] = React.useState('');
+export default function ListaEstados({ estado, setEstado }) {
   const [estados, setEstados] = React.useState([]);
 
   React.useEffect(() => {

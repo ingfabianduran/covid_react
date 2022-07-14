@@ -6,4 +6,10 @@ const getEstados = async() => {
   return data;
 };
 
-export { getEstados };
+const getTestRealizados = async(estado) => {
+  const res = await fetch(`${DOMINIO}/v1/states/${estado}/daily.json`);
+  const data = await res.json();
+  return data;
+};
+
+export { getEstados, getTestRealizados };
