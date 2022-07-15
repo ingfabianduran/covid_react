@@ -2,7 +2,7 @@ import React from 'react';
 import Estados from './components/ListaEstados';
 import TipoReportes from './components/TipoReportes';
 import Reporte from './components/Reporte';
-import { Container, Stack, Button, Snackbar } from '@mui/material';
+import { Container, Stack, Snackbar } from '@mui/material';
 import { getData } from './services/data';
 
 function App() {
@@ -15,9 +15,19 @@ function App() {
   const [textMessage, setTextMessage] = React.useState('');
 
   React.useEffect(() => {
-    if (tipoReporte == 1 || tipoReporte == 2) setIsMultiselect(false);
-    if (tipoReporte == 3) setIsMultiselect(true);
+    if (tipoReporte == 1 || tipoReporte == 2) {
+      setIsMultiselect(false);
+      if (estado !== '') generarReporte();
+    }
+    if (tipoReporte == 3) {
+      setIsMultiselect(true);
+      if (estadosSelect.length !== 0) generarReporte();
+    }
   }, [tipoReporte]);
+
+  React.useEffect(() => {
+    if (tipoReporte !== '') generarReporte();
+  }, [estado, estadosSelect]);
 
   const generarReporte = async() => {
     const estadoMinuscula = estado.toLocaleLowerCase();
@@ -39,8 +49,7 @@ function App() {
           const dataEstadoSelect = await getData(listEstadosSelect);
           dataArray.push(dataEstadoSelect);
         }
-        setDataReporte(reporteByTipoSelect(dataArray[0].state, dataArray[1].state, dataArray, 'positive'));
-        console.log(dataReporte);
+        if (dataArray.length == 2) setDataReporte(reporteByTipoSelect(dataArray[0].state, dataArray[1].state, dataArray, 'positive'));
       }
     }
   };
@@ -59,7 +68,6 @@ function App() {
       }
       return dataChart;
     }
-
     const dataChart = {
       labels: [propiedadA, propiedadB],
       datasets: [
@@ -107,12 +115,6 @@ function App() {
         direction='row'
         justifyContent='center'
         mt={2}>
-        <Button 
-          variant='contained'
-          size='large'
-          onClick={generarReporte}>
-          Generar
-        </Button>
       </Stack>
       <Stack
         mt={2}>
