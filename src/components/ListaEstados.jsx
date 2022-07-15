@@ -14,7 +14,12 @@ export default function ListaEstados({ estado, setEstado, isMultiselect = false 
   }, []);
 
   const changeEstadoSelect = (event) => {
-    setEstado(event.target.value);
+    if (isMultiselect) {
+      if (typeof event.target.value === 'string') setEstado(event.target.value.split(','));
+      else setEstado(event.target.value);
+    } else {
+      setEstado(event.target.value);
+    }
   };
 
   return (
@@ -29,7 +34,8 @@ export default function ListaEstados({ estado, setEstado, isMultiselect = false 
         id='labelEstadosSelect'
         label='Estados'
         value={estado}
-        onChange={changeEstadoSelect}>
+        onChange={changeEstadoSelect}
+        multiple={isMultiselect}>
         {
           estados.map(({ name, state }) => {
             return (

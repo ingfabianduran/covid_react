@@ -19,7 +19,7 @@ export default function Reporte({ data, tipo }) {
           tipo == 1 && <Pie data={data} />
         }
         {
-          tipo == 2 && <Bar data={data} />
+          tipo == 2 || tipo == 3 && <Bar data={data} />
         }
       </Box>
     </Stack>
